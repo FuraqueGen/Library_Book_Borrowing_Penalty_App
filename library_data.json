@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Jhon Steeven Vargas",
+        "contact": "09123456789",
+        "penalty_start_date": "2026-05-09 15:28:16",
+        "last_calculated_penalty_days": 4.0,
+        "borrowed_books": [
+            {
+                "title": "Programming 2",
+                "borrow_date": "2026-05-09 14:36:16",
+                "due_date": "2026-05-12 14:36:16",
+                "condition": "Good",
+                "status": "Returned",
+                "lost_declared_date": "NONE",
+                "final_overdue_days": 0,
+                "lost_resolved_duration": 0,
+                "was_damaged_upon_return": false
+            },
+            {
+                "title": "juan",
+                "borrow_date": "2026-05-09 15:27:51",
+                "due_date": "2026-05-12 15:27:51",
+                "condition": "Damaged",
+                "status": "Returned",
+                "lost_declared_date": "NONE",
+                "final_overdue_days": 0,
+                "lost_resolved_duration": 0,
+                "was_damaged_upon_return": false
+            }
+        ]
+    },
+    {
+        "name": "Jules Gardon",
+        "contact": "09152436475",
+        "penalty_start_date": "NONE",
+        "last_calculated_penalty_days": 0.0,
+        "borrowed_books": [
+            {
+                "title": "RPH",
+                "borrow_date": "2026-05-12 10:47:50",
+                "due_date": "2026-05-15 10:47:50",
+                "condition": "Good",
+                "status": "Returned",
+                "lost_declared_date": "NONE",
+                "final_overdue_days": 0,
+                "lost_resolved_duration": 0,
+                "was_damaged_upon_return": false
+            }
+        ]
+    },
+    {
+        "name": "Generous Furaque",
+        "contact": "09876543212",
+        "penalty_start_date": "NONE",
+        "last_calculated_penalty_days": 0.0,
+        "borrowed_books": []
+    },
+    {
+        "name": "Jhon Steeven",
+        "contact": "09876456213",
+        "penalty_start_date": "NONE",
+        "last_calculated_penalty_days": 0.0,
+        "borrowed_books": [
+            {
+                "title": "CC103",
+                "borrow_date": "2026-05-12 10:56:27",
+                "due_date": "2026-05-15 10:56:27",
+                "condition": "Good",
+                "status": "Returned",
+                "lost_declared_date": "NONE",
+                "final_overdue_days": 0,
+                "lost_resolved_duration": 0,
+                "was_damaged_upon_return": false
+            }
+        ]
+    }
+]
