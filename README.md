@@ -2,33 +2,49 @@
 An automated management system built with Python to monitor borrowed books, calculate penalties, and manage borrower deactivations.
 
 # Application Features
-**1. Account & Security Management**
-* **User Registration:** The application allows for the seamless creation of new borrower profiles.
- * **Strict Input Validation:** To ensure data integrity, the application prevents empty name fields, blocks duplicate registrations, and enforces a strict 11-digit numeric format for contact numbers starting with "09".
- * **Account Capacity Management:** The application includes a memory-efficient limit of 1,000 total accounts.
- * **Account Deletion:** Administrators have the authority to permanently remove borrower profiles from the database.
- * **Administrative Manual Override:** A specialized feature allows administrators to manually lift an account's deactivation even if the penalty period has not yet expired.
 
-**2. Core Library Operations**
- * **Regulated Borrowing Process:** The application automatically sets due dates restricted to a 3–5 day window and strictly prohibits borrowing for accounts with active deactivation status.
- * **Dynamic Return & Update Module:** Users can update book statuses to "Good," "Damaged," or "Lost," which triggers the corresponding application logic.
- * **History Management:** The application provides an option to clear "Returned" book history to maintain a clean and organized user profile.
 
-**3. Advanced Penalty Engine**
- * **Automated Penalty Calculation:** The engine automatically computes "Deactivation Days" based on return conditions:
-   * **Good Condition (Overdue):** 2 base days + the total number of days late.
-   * **Damaged Condition:** 4 base days + the total number of days late.
-   * **Lost Items:** 5 base days + the total number of days late.
- * **3-Day Search Grace Period:** A unique feature providing borrowers with a 3-day window to locate lost books before heavy penalties are officially applied.
- * **Lost-to-Returned Tracking:** The application monitors the duration taken to recover lost items and assesses any additional damage upon return.
- * **Real-time Deactivation Countdown:** Each profile displays a live countdown of remaining penalty time in days, hours, minutes, and seconds.
+## 1. Account Management & Capacity Control
+ * **Register Account (register_account):** Registers a new borrower. The system ensures that the name field cannot be blank and prevents duplicate entries in the database (*Unique Name Enforcement*).
+ * **Contact Number Validation:** Strictly filters input to ensure it contains numbers only, consists of exactly 11 digits, and strictly begins with the Philippine mobile prefix "09".
+ * **Delete Account:** Allows the deletion of a borrower account, complete with a confirmation prompt (y/n) before permanently removing the record from the system.
+ * **Maximum Account Limit:** Caps the database at a maximum of **1,000 accounts** (MAX_ACCOUNTS).
 
-**4. Administrative Tools & Data Integrity**
- * **JSON Data Persistence:** The application utilizes library_data.json to ensure all records and timestamps are preserved even if the application or device restarts.
- * **Advanced Search & Filtering:** * **Name Search:** Quick lookup of borrowers using specific keywords.
-   * **Deactivation Filter:** A dedicated view that isolates and displays only the accounts currently under penalty.
- * **Critical Alert Dashboard:** An administrative view designed to immediately flag borrowers with active penalties or violations.
- * **Statistical Reporting Summary:** Generates real-time overviews of total registered profiles, active book loans, and the total number of blocked accounts.
+## 2. Borrow Book Management
+ * **Borrow Book (borrow_book_logic):** Processes the issuance of a book to an active borrower. The system automatically assigns the *Borrow Date* (current date) and forces the user to set a *Due Date* strictly within a **3 to 5-day range**.
+ * **Borrowing History Dashboard:** Displays a comprehensive logs list of currently and previously borrowed books within the borrower's profile, including *Title*, *Date/Time Borrowed*, *Due Date*, *Condition*, and *Status*.
+ * **Clear History Option:** Allows the user to clear or purge completed transaction logs (status != "Returned") to keep their profile history clean.
+
+## 3. Book Return & Status Processing (return_book_logic)
+ * **Return (Good Condition):** Marks the book as *Returned* and terminates active tracking.
+ * **Return (Damaged):** Marks the book as returned but flags it as *Damaged* for penalty calculation purposes.
+ * **Declare Lost Book:** Initiates a **3-day search grace period** when a book is officially declared missing by the borrower.
+ * **Lost Book Recovery Verification:** If a lost book is successfully recovered, the system allows updating its status to *Returned* while recording the exact number of days spent searching (0–3 days) and evaluating if it sustained any damages upon recovery.
+
+## 4. Mathematical Penalty Calculation Engine (BookPenaltyProcessor)
+The system automatically calculates account suspension periods (total_days) using the following precise formulas:
+ * **Not Returned (Good + Late):** 
+ * **Not Returned (Damaged):** 
+ * **Not Returned (Lost - Beyond 3 Days):** 
+ * **Returned (Damaged):** 
+ * **Returned (Good but Late):** 
+ * **Lost Then Returned:** 
+
+## 5. Account Deactivation & Countdown System
+ * **Automatic Account Blocking:** If a borrower accumulates a calculated penalty higher than zero, the system automatically logs a penalty_start_date and changes the account status to **DEACTIVATED**. This locks the account, blocking them from accessing their profile or borrowing books.
+ * **Dynamic Countdown Display:** Displays the remaining duration of the account penalty dynamically in an Xd Xh Xm or Xh Xm Xs format based on the remaining seconds.
+ * **Automatic Reactivation:** Once the penalty timer hits zero, the system completely resets the borrower's account back to an *Active* state and normalizes their book records.
+
+## 6. Search, Filter, & Administrative Tools
+ * **Search Borrowers:** Locates registered borrower accounts using a case-insensitive name keyword search (e.g., searching for "juan").
+ * **Filter Deactivated Profiles:** A dedicated administrative utility that filters and isolates only the accounts currently serving a deactivation penalty.
+ * **Critical Alert List:** A rapid-glance dashboard for librarians displaying the names, contact details, and remaining deactivation times of all flagged accounts.
+ * **Invoked Manual Override:** An administrative override feature where typing a borrower's exact name allows the system to instantly wipe all penalties, mark books as "Good" and "Returned", and immediately restore the account to an "Active" state.
+
+## 7. Data Persistence & OOP Architecture
+ * **JSON Storage Repository:** Automatically saves (save()) and loads (load()) the entire application state into a library_data.json file, ensuring complete anti-data loss protection even after a system restart.
+ * **OOP Compliance:** Fully adheres to **Abstraction** and **Inheritance** (via Penalty and StorageRepository classes), **Encapsulation** (via protected/private attributes like _title, _name), and **Polymorphism** (implemented through custom overrides in calculate_deactivation_days).
+
 
 # Quality Assurance (Automated Testing)
 This project has undergone **27 automated test cases** using the `pytest` framework to ensure the system is reliable and bug-free.
